@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.List;
 
 import exception.InputValidator;
 import ui.InputView;
@@ -8,31 +8,33 @@ import utils.StringHandler;
 public class App {
 
 	public static void main(String[] args) {
-//		RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
-//		for(int i=1; i<50; i++) {
-//			System.out.println(randomNumberGenerator.getSingleDigitNaturalNum());
-//		}
-//		Car car = new Car("T-Voli", 0);
-//		car.goForward();
-//		System.out.println(car.checkDistance());
-		
 		OutputView outputView = new OutputView();
-		outputView.guideTypeCarName();
-		
 		InputView inputView = new InputView();
+		InputValidator inputValidator = new InputValidator();
+		StringHandler stringHandler = new StringHandler();
+		
+		outputView.guideTypeCarNames();
+		
 		String carNames = inputView.getInput();
 		System.out.println(carNames);
 
-		// 입력값 점검.
-		InputValidator inputValidator = new InputValidator();
+		// 이름 입력값 점검.
 		inputValidator.checkInput(carNames);
+		// 이름별로 분리해서 List화.
+		List<String> nameList = stringHandler.splitStringToList(carNames, ",");
 		
-		// 이름별로 나누기.
-		StringHandler stringHandler = new StringHandler();
-		String[] carNameArray = stringHandler.splitCarNames(carNames);
+		// 횟수 입력값 받기.
+		String strScheduledRound = inputView.getInput();
+		// 횟수 입력값 점검.
+		inputValidator.castableToInt(strScheduledRound);
+		// 아래 라인은 true일 때만 실행되므로 if문 사용X.
 		
-		// 자동차 객체 3개 생성.
-//		Arrays.asList(new Car(), )
+		// RacingCarGame객체 생성.
+		RacingCarGame racingCarGame = new RacingCarGame(stringHandler.toInt(strScheduledRound));
+		racingCarGame.registerParticipants(nameList);
+		
+		
+		
 		
 		
 	}

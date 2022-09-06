@@ -1,10 +1,8 @@
-package racingcar;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class racingcarTest {
+class CarTest {
 
 	@Test
 	void test() {

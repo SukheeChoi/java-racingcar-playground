@@ -1,5 +1,7 @@
 package exception;
 
+import constant.ErrorMessage;
+
 public class InputValidator {
 	// 횟수 입력값을 String으로 받아서 int로 변환할 수 있는지 점검.
 	public boolean castableToInt(String strInt) {
@@ -7,16 +9,15 @@ public class InputValidator {
 			Integer.parseInt(strInt);
 			return true;
 		} catch(Exception exception) {
-			throw new NumberFormatException("값이 유효하지 않습니다.");
+			throw new NumberFormatException(ErrorMessage.CANNOT_CAST_TO_INT.getMessage());
 		}
 	}
 
 	// 입력값이 null, 공백인 경우 체크.
 	public void checkInput(String input) {
-		if(input == null ||
-//				input == "" ||
-				input.replace(" ", "") == "") {
-			throw new RuntimeException("값이 유효하지 않습니다.");
+		if((input == null) ||
+			(input.replace(" ", "") == "")) {
+			throw new RuntimeException(ErrorMessage.NOT_FOUND_ARGUMENT.getMessage());
 		}
 	}
 }

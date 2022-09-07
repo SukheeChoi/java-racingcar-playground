@@ -6,6 +6,7 @@ public class Car {
 	
 	public Car(String name) {
 		this.name = new Name(name);
+		this.distance = new Distance();
 	}
 	
 	// 자동차의 이름 찾기.
@@ -21,7 +22,7 @@ public class Car {
 	public void goForward() {
 		RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 		if(4 <= randomNumberGenerator.getSingleDigitNaturalNum()) {
-			distance.plusOne(); // 한 칸 전진.
+			this.distance.plusOne(); // 한 칸 전진.
 		}
 	}
 			

@@ -14,9 +14,7 @@ public class App {
 		StringHandler stringHandler = new StringHandler();
 		
 		outputView.guideTypeCarNames();
-		
 		String carNames = inputView.getInput();
-		System.out.println(carNames);
 
 		// 이름 입력값 점검.
 		inputValidator.checkInput(carNames);
@@ -24,6 +22,7 @@ public class App {
 		List<String> nameList = stringHandler.splitStringToList(carNames, ",");
 		
 		// 횟수 입력값 받기.
+		outputView.guideTypeRoundNum();
 		String strScheduledRound = inputView.getInput();
 		// 횟수 입력값 점검.
 		inputValidator.castableToInt(strScheduledRound);
@@ -33,8 +32,8 @@ public class App {
 		RacingCarGame racingCarGame = new RacingCarGame(stringHandler.toInt(strScheduledRound));
 		racingCarGame.registerParticipants(nameList);
 		
-		
-		
+		// 게임 시작.
+		racingCarGame.start();
 		
 		
 	}

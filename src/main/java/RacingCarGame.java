@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import ui.OutputView;
-import utils.RandomNumberGenerator;
 
 public class RacingCarGame {
 
@@ -13,8 +12,8 @@ public class RacingCarGame {
 	private Round scheduledRoud; // 예정된 라운드의 횟수.
 	private Round ongoingRound; // 진행중인 라운드의 정보.
 	
-	private static RandomNumberGenerator randomNumberGenerator;
 	private static OutputView outputView;
+	private static Round round;
 	
 	public RacingCarGame(int scheduledRound) {
 		this.scheduledRoud = new Round(scheduledRound);
@@ -49,34 +48,26 @@ public class RacingCarGame {
 		// 
 	}
 	
-	// 경기(라운드) 시작.
-	public void playRound() {
-		this.participantList.stream()
-			.filter(car -> randomNumberGenerator.getSingleDigitNaturalNum() >= 4)
-			.forEach(Car::goForward);
-		// 해당 라운드 진행 결과 출력.
-		outputView.noticeRoundResult(
-				this.participantList.stream()
-					.collect(Collectors.toMap(car -> car.findName(), car -> car.measureDistance()))
-			);
-	}
-	
-	
 	// 경주 진행 가능상태 점검. 경주 종료여부 점검.
 	public boolean isNotFinished() {
-		if(this.ongoingRound.getRound() < this.scheduledRoud.getRound()) {
-			return true;
-		}
+		if(this.ongoingRound.getRound() < this.scheduledRoud.getRound()) return true;
+
 		return false;
 	}
 	
 	// 자동차 경주 시작.
 	public void start() {
-		if(isNotFinished()) {
-			playRound();
+		while(isNotFinished()) {
+			round.play(participantList);
+			// 해당 라운드 진행 결과 출력.
+			outputView.noticeRoundResult(
+					this.participantList.stream()
+					.collect(Collectors.toMap(car -> car.findName(), car -> car.measureDistance()))
+				);
+			this.ongoingRound.goNext(); // 라운드 +1.
 		}
-		// 종료된 경주임.
-		end();
+		
+		end(); // 경기 종료.
 	}
 
 	// 참가 자동자 만큼 Car객체 생성하고 List화 해서 필드에 등록.

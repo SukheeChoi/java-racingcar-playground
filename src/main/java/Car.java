@@ -18,6 +18,7 @@ public class Car {
 		return this.distance.getDistance();
 	}
 	
+	// 직진 주행.
 	public void goForward() {
 		RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 		if(4 <= randomNumberGenerator.getSingleDigitNaturalNum()) {

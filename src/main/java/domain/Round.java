@@ -1,8 +1,7 @@
-package dto;
+package domain;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import domain.Car;
 import exception.RoundValidator;
 import ui.OutputView;
 import utils.RandomNumberGenerator;

@@ -1,3 +1,6 @@
+package domain;
+import dto.Distance;
+import dto.Name;
 import utils.RandomNumberGenerator;
 
 public class Car {

@@ -1,3 +1,4 @@
+package dto;
 import exception.NameValidator;
 
 public class Name {

@@ -1,3 +1,4 @@
+package dto;
 import exception.DistanceValidator;
 
 public class Distance {

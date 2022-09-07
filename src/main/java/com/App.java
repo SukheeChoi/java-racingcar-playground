@@ -1,5 +1,6 @@
 import java.util.List;
 
+import domain.RacingCarGame;
 import exception.InputValidator;
 import ui.InputView;
 import ui.OutputView;

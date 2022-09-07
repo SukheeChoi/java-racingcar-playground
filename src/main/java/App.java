@@ -14,7 +14,6 @@ public class App {
 		StringHandler stringHandler = new StringHandler();
 		
 		outputView.guideTypeCarNames();
-		
 		String carNames = inputView.getInput();
 		System.out.println(carNames);
 

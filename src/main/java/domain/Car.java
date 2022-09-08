@@ -1,3 +1,6 @@
+package domain;
+import dto.Distance;
+import dto.Name;
 import utils.RandomNumberGenerator;
 
 public class Car {
@@ -6,6 +9,7 @@ public class Car {
 	
 	public Car(String name) {
 		this.name = new Name(name);
+		this.distance = new Distance();
 	}
 	
 	// 자동차의 이름 찾기.
@@ -18,11 +22,10 @@ public class Car {
 		return this.distance.getDistance();
 	}
 	
-	// 직진 주행.
 	public void goForward() {
 		RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 		if(4 <= randomNumberGenerator.getSingleDigitNaturalNum()) {
-			distance.plusOne(); // 한 칸 전진.
+			this.distance.plusOne(); // 한 칸 전진.
 		}
 	}
 			

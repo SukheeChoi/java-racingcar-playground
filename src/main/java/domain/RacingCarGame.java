@@ -1,3 +1,4 @@
+package domain;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -9,13 +10,13 @@ import ui.OutputView;
 public class RacingCarGame {
 
 	private List<Car> participantList; // 참가 자동차 목록.
-	private Round scheduledRoud; // 예정된 라운드의 횟수.
 	private Round ongoingRound; // 진행중인 라운드의 정보.
+	private Round scheduledRoud; // 예정된 라운드의 횟수.
 	
-	private static OutputView outputView;
-	private static Round round;
+	private static OutputView outputView = new OutputView();
 	
 	public RacingCarGame(int scheduledRound) {
+		this.ongoingRound = new Round();
 		this.scheduledRoud = new Round(scheduledRound);
 	}
 	
@@ -50,24 +51,19 @@ public class RacingCarGame {
 	
 	// 경주 진행 가능상태 점검. 경주 종료여부 점검.
 	public boolean isNotFinished() {
-		if(this.ongoingRound.getRound() < this.scheduledRoud.getRound()) return true;
-
+		if(this.ongoingRound.getRound() < this.scheduledRoud.getRound()) {
+			return true;
+		}
 		return false;
 	}
 	
 	// 자동차 경주 시작.
 	public void start() {
+		outputView.printResultTitle();
 		while(isNotFinished()) {
-			round.play(participantList);
-			// 해당 라운드 진행 결과 출력.
-			outputView.noticeRoundResult(
-					this.participantList.stream()
-					.collect(Collectors.toMap(car -> car.findName(), car -> car.measureDistance()))
-				);
-			this.ongoingRound.goNext(); // 라운드 +1.
+			this.ongoingRound.play(this.participantList);
 		}
-		
-		end(); // 경기 종료.
+		end(); // 경기가 종료됨.
 	}
 
 	// 참가 자동자 만큼 Car객체 생성하고 List화 해서 필드에 등록.

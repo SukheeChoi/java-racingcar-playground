@@ -7,7 +7,7 @@ public class OutputView {
 
 	// 경기 결과 출력.
 	public void noticeFinalResult(List<String> championList) {
-		System.out.println(championList.get(0));
+		System.out.print(championList.get(0));
 		if(championList.size() > 1) {
 			for(int loop=1; loop<championList.size(); loop++) {
 				System.out.print(", ");
@@ -19,11 +19,15 @@ public class OutputView {
 	
 	// 라운드 별 실행 결과 출력.
 	public void noticeRoundResult(Map<String, Integer> participantList) {
-		System.out.println("실행 결과");
 		for(Map.Entry<String, Integer> participant : participantList.entrySet()) {
 			System.out.println(participant.getKey() + " : " + "-".repeat(participant.getValue()));
 		}
 		System.out.println();
+	}
+	
+	public void printResultTitle() {
+		System.out.println();
+		System.out.println("실행 결과");
 	}
 	
 	public void guideTypeCarNames() {

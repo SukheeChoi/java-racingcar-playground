@@ -32,8 +32,8 @@ public class RacingCarGame {
 		if(champion.isPresent()) { // max distance 값 찾아서 다시 참가자 목록에서 필터링하는게 맞나..?
 			return this.participantList.stream()
 				.filter(car -> car.measureDistance() == champion.get().measureDistance())
-//				.collect(Collectors.toList()); // mutable
-				.toList(); // returns an unmodifiable list.
+				.collect(Collectors.toList()); // mutable
+//				.toList(); // returns an unmodifiable list.
 		}
 		
 		// 우승자가 없는 경우가 있을 수 없지만
@@ -46,7 +46,8 @@ public class RacingCarGame {
 		outputView.noticeFinalResult( // List<String>
 			findChampions().stream() // findChampions returns List<Car>
 				.map(Car::findName)
-				.toList() // returns an unmodifiable list.
+				.collect(Collectors.toList()) // mutable
+//				.toList() // returns an unmodifiable list.
 		);
 	}
 	
@@ -59,7 +60,8 @@ public class RacingCarGame {
 	public void registerParticipantList(List<String> participantList) {
 		this.participantList = participantList.stream()
 			.map(Car::new)
-			.toList();
+			.collect(Collectors.toList()); // mutable
+//			.toList();
 	}
 	
 	private void start() {

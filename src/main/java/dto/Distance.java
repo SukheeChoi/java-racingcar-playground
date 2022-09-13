@@ -3,25 +3,25 @@ import exception.DistanceValidator;
 
 public class Distance {
 
-	private Integer distance;
+	private Integer kilometer;
 	
-	private DistanceValidator distanceValidator = new DistanceValidator();
+	private static DistanceValidator distanceValidator = new DistanceValidator();
 	
 	public Distance() {
-		this.distance = (Integer) 0;
+		this.kilometer = 0;
 	}
 	
 	public Distance(int distance) {
 		// 유효성 검사.
 		distanceValidator.isNotNegative(distance);
-		this.distance = (Integer) distance;
+		this.kilometer = distance;
 	}
 
-	public void plusOne() {
-		this.distance += 1;
+	public void plusOneKm() {
+		this.kilometer += 1;
 	}
 	
-	public int getDistance() {
-		return this.distance;
+	public int measureKilometer() {
+		return this.kilometer;
 	}
 }

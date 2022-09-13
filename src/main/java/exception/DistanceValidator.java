@@ -1,6 +1,6 @@
 package exception;
 
-import constant.ErrorMessage;
+import constants.ErrorMessage;
 
 public class DistanceValidator {
 	

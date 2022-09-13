@@ -1,6 +1,6 @@
 package exception;
 
-import constant.ErrorMessage;
+import constants.ErrorMessage;
 
 public class InputValidator {
 	// 횟수 입력값을 String으로 받아서 int로 변환할 수 있는지 점검.
@@ -14,10 +14,10 @@ public class InputValidator {
 	}
 
 	// 입력값이 null, 공백인 경우 체크.
-	public void checkInput(String input) {
+	public void checkExistCharacter(String input) {
 		if((input == null) ||
-			(input.replace(" ", "") == "")) {
-			throw new RuntimeException(ErrorMessage.NOT_FOUND_ARGUMENT.getMessage());
+			(input.replace(" ", "").equals(""))) {
+			throw new IllegalArgumentException(ErrorMessage.NOT_FOUND_ARGUMENT.getMessage());
 		}
 	}
 }

@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import exception.InputValidator;
+import ui.InputView;
 import ui.OutputView;
+import utils.StringHandler;
 
 public class RacingCarGame {
 
@@ -14,20 +17,23 @@ public class RacingCarGame {
 	private Round scheduledRoud; // 예정된 라운드의 횟수.
 	
 	private static OutputView outputView = new OutputView();
+	private static InputView inputView = new InputView();
+	private static InputValidator inputValidator = new InputValidator();
+	private static StringHandler stringHandler = new StringHandler();
 	
-	public RacingCarGame(int scheduledRound) {
+	public RacingCarGame() {
 		this.ongoingRound = new Round();
-		this.scheduledRoud = new Round(scheduledRound);
 	}
-	
-	// 우승 자동차 목록 구하기.
+
+	// max 안 쓰기(maxdistance 찾아주는 메소드 정의), stream() 한 번만 쓰기.
 	private List<Car> findChampions() {
 		Optional<Car> champion = this.participantList.stream()
 			.max(Comparator.comparing(Car::measureDistance));
-		if(champion.isPresent()) {
+		if(champion.isPresent()) { // max distance 값 찾아서 다시 참가자 목록에서 필터링하는게 맞나..?
 			return this.participantList.stream()
 				.filter(car -> car.measureDistance() == champion.get().measureDistance())
-				.collect(Collectors.toList());
+//				.collect(Collectors.toList()); // mutable
+				.toList(); // returns an unmodifiable list.
 		}
 		
 		// 우승자가 없는 경우가 있을 수 없지만
@@ -36,41 +42,63 @@ public class RacingCarGame {
 		return Arrays.asList();
 	}
 	
-	// 게임 종료.
 	private void end() {
-		List<Car> championList = findChampions();
-		if(!championList.isEmpty()) { // 우승자 있는 경우.
-			outputView.noticeFinalResult( // List<String>
-				championList.stream()
-					.map(car -> car.findName())
-					.collect(Collectors.toList())
-			);
-		}
-		// 
+		outputView.noticeFinalResult( // List<String>
+			findChampions().stream() // findChampions returns List<Car>
+				.map(Car::findName)
+				.toList() // returns an unmodifiable list.
+		);
 	}
 	
-	// 경주 진행 가능상태 점검. 경주 종료여부 점검.
+	// TODO isNotFinished() -> Round 객체 내부 메소드로.
 	public boolean isNotFinished() {
-		if(this.ongoingRound.getRound() < this.scheduledRoud.getRound()) {
-			return true;
-		}
-		return false;
+		return this.ongoingRound.getRound() < this.scheduledRoud.getRound();
 	}
 	
-	// 자동차 경주 시작.
-	public void start() {
+
+	public void registerParticipantList(List<String> participantList) {
+		this.participantList = participantList.stream()
+			.map(Car::new)
+			.toList();
+	}
+	
+	private void start() {
 		outputView.printResultTitle();
 		while(isNotFinished()) {
 			this.ongoingRound.play(this.participantList);
 		}
-		end(); // 경기가 종료됨.
+	}
+	
+	private void validateInning(String strScheduledRound) {
+		inputValidator.castableToInt(strScheduledRound);
 	}
 
-	// 참가 자동자 만큼 Car객체 생성하고 List화 해서 필드에 등록.
-	public void registerParticipants(List<String> participantList) {
-		// 참가 자동차의 수만큼 Car객체 생성.
-		this.participantList = participantList.stream()
-			.map(Car::new)
-			.collect(Collectors.toList());
+	private void scheduleIniing() {
+		outputView.guideTypeInningTotal();
+		String strScheduledRound = inputView.getOneLine();
+		validateInning(strScheduledRound);
+		this.scheduledRoud = new Round(stringHandler.toInt(strScheduledRound));
 	}
+	
+	private void validateCarName(String oneLineNames) {
+		inputValidator.checkExistCharacter(oneLineNames);
+	}
+	
+	private List<String> getParticipant() {
+		outputView.guideTypeCarNames();
+		String oneLineNames = inputView.getOneLine();
+		validateCarName(oneLineNames);
+		return stringHandler.splitStringToList(oneLineNames, ",");
+	}
+	
+	public void process() {
+		// validate(get())
+		// register(split())
+		registerParticipantList(getParticipant());
+		scheduleIniing();
+		start();
+		end();
+	}
+
+
 }

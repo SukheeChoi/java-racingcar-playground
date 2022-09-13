@@ -4,35 +4,35 @@ import java.util.stream.Collectors;
 
 import exception.RoundValidator;
 import ui.OutputView;
-import utils.RandomNumberGenerator;
+import utils.RandomNumGenerator;
 
 public class Round {
-
-	private Integer round;
+	// TODO 필드 이원화 (ongoingInning, finalInning).
+	private Integer inning;
 	
 	private static RoundValidator roundValidator = new RoundValidator();
-	private static RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
+	private static RandomNumGenerator randomNumberGenerator = new RandomNumGenerator();
 	private static OutputView outputView = new OutputView();
 	
 	public Round() {
-		this.round = (Integer) 0;
+		this.inning = 0;
 	}
 	
 	public Round(int round) {
-		roundValidator.isNaturalNumber(round); // 유효성 검사.
-		this.round = (Integer) round;
+		roundValidator.isNaturalNum(round); // 유효성 검사.
+		this.inning = round;
 	}
 	
 	// 해당 라운드 진행 결과 출력.
 	public void printResult(List<Car> participantList) {
 		outputView.noticeRoundResult(
 				participantList.stream()
-					.collect(Collectors.toMap(car -> car.findName(), car -> car.measureDistance()))
+					.collect(Collectors.toMap(Car::findName, Car::measureDistance))
 			);
 	}
 	
 	public void upNext() {
-		this.round += 1;
+		this.inning += 1;
 	}
 	
 	public void play(List<Car> participantList) {
@@ -45,7 +45,7 @@ public class Round {
 	}
 	
 	public int getRound() {
-		return this.round;
+		return this.inning;
 	}
-
+	
 }
